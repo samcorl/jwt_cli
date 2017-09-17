@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+require_relative '../lib/jwt_builder'
+require 'thor'
+
+class JwtCli < Thor
+  desc :new, 'Generates a new Java Web Token (JWT)'
+  long_desc <<-LONGDESC
+    `jwt_cli new` will start an interactive process to build a JWT.
+
+    `user` and `email` are required. They can be set via the command line as Options
+    or entered interactively.
+
+  LONGDESC
+
+  option :user,
+         desc: 'A valid user_id',
+         aliases: [:u]
+  option :email,
+         desc: 'A valid email address',
+         aliases: [:e]
+
+  def new
+    JwtBuilder.new(user_id: options[:user], email_address: options[:email]).call
+  end
+
+end
+
+JwtCli.start(ARGV)
+
+
+
